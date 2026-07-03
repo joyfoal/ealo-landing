@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>이뤄 (Ealo) — 말하면, 이루어진다</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script src="image-slot.js"></script>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#FBF0DA"/>
+    <circle cx="50" cy="50" r="20" fill="none" stroke="#BA7517" stroke-width="4"/>
+    <text x="50" y="58" font-family="sans-serif" font-size="18" font-weight="800" fill="#BA7517" text-anchor="middle">이뤄</text>
+  </svg>
+</template>
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; font-family: 'Pretendard', -apple-system, sans-serif; background: #FFFCF8; color: #2A1801; -webkit-font-smoothing: antialiased; word-break: keep-all; }
@@ -16,18 +28,15 @@
   @keyframes camBreathe { 0%,100% { transform: scale(1.04) translateY(0); } 50% { transform: scale(1.075) translateY(-0.6%); } }
   @keyframes camBreatheMan { 0%,100% { transform: scale(1.5) translateY(-15%); } 50% { transform: scale(1.54) translateY(-15.4%); } }
   @keyframes headTalk { 0% { transform: translate(0,0) rotate(0deg); } 20% { transform: translate(-0.4%,0.3%) rotate(-0.3deg); } 45% { transform: translate(0.3%,-0.2%) rotate(0.25deg); } 70% { transform: translate(-0.2%,0.35%) rotate(-0.15deg); } 100% { transform: translate(0,0) rotate(0deg); } }
-  /* 자바스크립트 교차 로직을 CSS 애니메이션으로 완벽 대체 */
-  @keyframes fadeMan { 0%, 45% { opacity: 1; } 50%, 95% { opacity: 0; } 100% { opacity: 1; } }
-  @keyframes fadeWoman { 0%, 45% { opacity: 0; } 50%, 95% { opacity: 1; } 100% { opacity: 0; } }
 </style>
-</head>
-<body>
+</helmet>
+
 <div style="max-width:1440px; width:100%; margin:0 auto; overflow:hidden;">
 
   <!-- ═══════════ Nav ═══════════ -->
   <nav style="display:flex; align-items:flex-start; justify-content:space-between; padding:26px 64px;">
     <div style="display:flex; align-items:center; gap:11px;">
-      <img src="assets/ealo-logo.png" alt="이뤄" style="width:114px; height:114px; border-radius:26px; display:block;" onerror="this.style.display='none'">
+      <img src="assets/ealo-logo.png" alt="이뤄" style="width:114px; height:114px; border-radius:26px; display:block;">
     </div>
     <div style="display:flex; align-items:center; gap:36px;">
       <a href="#how" style="font-size:15px; font-weight:600; color:#7A6A55; text-decoration:none;">사용법</a>
@@ -64,14 +73,13 @@
       <div style="position:absolute; inset:-40px -30px; background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(186,117,23,0.16), transparent 70%); pointer-events:none;"></div>
       <div style="position:relative; width:340px; height:718px; border-radius:46px; padding:11px; background:linear-gradient(150deg,#2A1801,#1a0f04); box-shadow:0 40px 90px -24px rgba(65,36,2,0.5); animation:floatY 6s ease-in-out infinite;">
         <div style="position:relative; width:100%; height:100%; border-radius:36px; overflow:hidden; background:#140D06;">
-          
           <!-- 카메라 피드 (두 얼굴 시간차 교차 + 말하는 움직임) -->
-          <div style="position:absolute; inset:0; overflow:hidden; animation:fadeMan 8.4s infinite;">
+          <div style="position:absolute; inset:0; overflow:hidden; opacity:{{ manOpacity }}; transition:opacity 1.4s ease;">
             <div style="position:absolute; inset:0; animation:headTalk 2.6s ease-in-out infinite;">
               <img src="uploads/Young_man_looking_at_camera_202607031217.jpeg" alt="말하는 사용자" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform-origin:50% 30%; animation:camBreatheMan 5s ease-in-out infinite;">
             </div>
           </div>
-          <div style="position:absolute; inset:0; overflow:hidden; animation:fadeWoman 8.4s infinite;">
+          <div style="position:absolute; inset:0; overflow:hidden; opacity:{{ womanOpacity }}; transition:opacity 1.4s ease;">
             <div style="position:absolute; inset:0; animation:headTalk 2.6s ease-in-out infinite 0.4s;">
               <img src="uploads/Young_woman_looking_at_camera_202607031218.jpeg" alt="말하는 사용자" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform-origin:50% 40%; animation:camBreathe 5s ease-in-out infinite 0.6s;">
             </div>
@@ -89,21 +97,18 @@
             </div>
           </div>
 
-          <!-- 중앙: 단어 칩 오버레이 (특수 태그 해제) -->
+          <!-- 중앙: 단어 칩 오버레이 -->
           <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; z-index:12;">
             <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:30px;">
-              <span style="font-size:23px; font-weight:600; padding:5px 12px; border-radius:9px; background:rgba(233,200,119,0.92); color:#2A1801; box-shadow:0 0 18px rgba(233,200,119,0.35);">나는</span>
-              <span style="font-size:23px; font-weight:600; padding:5px 12px; border-radius:9px; background:rgba(233,200,119,0.92); color:#2A1801; box-shadow:0 0 18px rgba(233,200,119,0.35);">매일</span>
-              <span style="font-size:23px; font-weight:600; padding:5px 12px; border-radius:9px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.92); box-shadow:none;">성장하고</span>
-              <span style="font-size:23px; font-weight:600; padding:5px 12px; border-radius:9px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.92); box-shadow:none;">있다</span>
+              <sc-for list="{{ words }}" as="w" hint-placeholder-count="4">
+                <span style="font-size:23px; font-weight:600; padding:5px 12px; border-radius:9px; background:{{ w.bg }}; color:{{ w.color }}; box-shadow:{{ w.glow }};">{{ w.text }}</span>
+              </sc-for>
             </div>
             <div style="display:flex; align-items:center; gap:9px; color:rgba(255,255,255,0.7); font-size:14px;">
               <div style="display:flex; align-items:flex-end; gap:2.5px; height:22px;">
-                <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out 0s infinite;"></span>
-                <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out 0.08s infinite;"></span>
-                <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out 0.16s infinite;"></span>
-                <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out 0.24s infinite;"></span>
-                <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out 0.32s infinite;"></span>
+                <sc-for list="{{ waveDelays }}" as="d" hint-placeholder-count="5">
+                  <span style="width:3px; border-radius:2px; background:#E9C877; height:6px; animation:waveBar 0.5s ease-in-out {{ d }} infinite;"></span>
+                </sc-for>
               </div>
               인식 중...
             </div>
@@ -130,39 +135,16 @@
       <h2 style="font-size:42px; font-weight:800; letter-spacing:-0.8px; margin:0; color:#2A1801;">세 번의 호흡이면 충분해요</h2>
     </div>
     <div style="display:flex; gap:24px;">
-      <!-- Step 1 -->
-      <div style="flex:1; background:#FFFFFF; border:1px solid #F0E7D6; border-radius:24px; padding:36px 32px; box-shadow:0 6px 22px rgba(65,36,2,0.05);">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
-          <div style="width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,#FBE6BE,#F4C876); display:flex; align-items:center; justify-content:center; color:#A8600A;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+        <div style="flex:1; background:#FFFFFF; border:1px solid #F0E7D6; border-radius:24px; padding:36px 32px; box-shadow:0 6px 22px rgba(65,36,2,0.05);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+            <div style="width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,#FBE6BE,#F4C876); display:flex; align-items:center; justify-content:center; color:#A8600A;">{{ s.icon }}</div>
+            <span style="font-size:44px; font-weight:800; color:#F0E3CB; line-height:1;">{{ s.num }}</span>
           </div>
-          <span style="font-size:44px; font-weight:800; color:#F0E3CB; line-height:1;">01</span>
+          <h3 style="font-size:22px; font-weight:800; margin:0 0 10px; color:#2A1801;">{{ s.title }}</h3>
+          <p style="font-size:15.5px; line-height:1.6; color:#7A6A55; margin:0;">{{ s.desc }}</p>
         </div>
-        <h3 style="font-size:22px; font-weight:800; margin:0 0 10px; color:#2A1801;">오늘의 말을 골라요</h3>
-        <p style="font-size:15.5px; line-height:1.6; color:#7A6A55; margin:0;">나 자신·커리어·건강 등 카테고리별 확언 중 오늘 마주할 성공의 말을 만나요.</p>
-      </div>
-      <!-- Step 2 -->
-      <div style="flex:1; background:#FFFFFF; border:1px solid #F0E7D6; border-radius:24px; padding:36px 32px; box-shadow:0 6px 22px rgba(65,36,2,0.05);">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
-          <div style="width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,#FBE6BE,#F4C876); display:flex; align-items:center; justify-content:center; color:#A8600A;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-          </div>
-          <span style="font-size:44px; font-weight:800; color:#F0E3CB; line-height:1;">02</span>
-        </div>
-        <h3 style="font-size:22px; font-weight:800; margin:0 0 10px; color:#2A1801;">카메라를 보며 말해요</h3>
-        <p style="font-size:15.5px; line-height:1.6; color:#7A6A55; margin:0;">나를 마주 본 채 소리 내어 외치면, 인식된 단어가 하나씩 골드로 밝아져요.</p>
-      </div>
-      <!-- Step 3 -->
-      <div style="flex:1; background:#FFFFFF; border:1px solid #F0E7D6; border-radius:24px; padding:36px 32px; box-shadow:0 6px 22px rgba(65,36,2,0.05);">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
-          <div style="width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,#FBE6BE,#F4C876); display:flex; align-items:center; justify-content:center; color:#A8600A;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="m9 16 2 2 4-4"/></svg>
-          </div>
-          <span style="font-size:44px; font-weight:800; color:#F0E3CB; line-height:1;">03</span>
-        </div>
-        <h3 style="font-size:22px; font-weight:800; margin:0 0 10px; color:#2A1801;">기록으로 이어져요</h3>
-        <p style="font-size:15.5px; line-height:1.6; color:#7A6A55; margin:0;">완료한 외침은 달력과 연속 기록으로 쌓여요. 어제의 나보다 오늘의 내가 더 단단해져요.</p>
-      </div>
+      </sc-for>
     </div>
   </section>
 
@@ -176,7 +158,6 @@
       <p style="font-size:16px; color:#7A6A55; max-width:340px; line-height:1.6; margin:0;">말하기 하나로 끝나지 않아요. 기록하고, 놀이하고, 함께 나누며 이어가요.</p>
     </div>
     <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:22px;">
-      
       <!-- 큰 카드: 카메라 말하기 -->
       <div style="grid-row:span 2; background:linear-gradient(160deg,#2A1801,#140D06); border-radius:26px; padding:40px; color:#fff; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; min-height:400px;">
         <div style="position:absolute; top:-40px; right:-40px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(233,200,119,0.22),transparent 70%);"></div>
@@ -194,43 +175,13 @@
           <span style="font-size:15px; font-weight:600; padding:5px 12px; border-radius:9px; background:rgba(255,255,255,0.12); color:#fff;">있다</span>
         </div>
       </div>
-
-      <!-- Feature 1 -->
-      <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:22px; padding:30px; box-shadow:0 5px 18px rgba(65,36,2,0.04);">
-        <div style="width:48px; height:48px; border-radius:14px; background:#FBF0DA; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:#BA7517;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+        <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:22px; padding:30px; box-shadow:0 5px 18px rgba(65,36,2,0.04);">
+          <div style="width:48px; height:48px; border-radius:14px; background:{{ f.chipBg }}; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:{{ f.chipColor }};">{{ f.icon }}</div>
+          <h3 style="font-size:19px; font-weight:800; margin:0 0 8px; color:#2A1801;">{{ f.title }}</h3>
+          <p style="font-size:14.5px; line-height:1.58; color:#7A6A55; margin:0;">{{ f.desc }}</p>
         </div>
-        <h3 style="font-size:19px; font-weight:800; margin:0 0 8px; color:#2A1801;">동적 텍스트 인트로</h3>
-        <p style="font-size:14.5px; line-height:1.58; color:#7A6A55; margin:0;">확언이 어절 단위로 하나씩 밝아지며 마음을 준비시켜요.</p>
-      </div>
-
-      <!-- Feature 2 -->
-      <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:22px; padding:30px; box-shadow:0 5px 18px rgba(65,36,2,0.04);">
-        <div style="width:48px; height:48px; border-radius:14px; background:#EAF2FB; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:#1E88E5;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-        </div>
-        <h3 style="font-size:19px; font-weight:800; margin:0 0 8px; color:#2A1801;">연속 기록 & 달력</h3>
-        <p style="font-size:14.5px; line-height:1.58; color:#7A6A55; margin:0;">매일의 외침이 streak으로. 보호막으로 연속을 지켜요.</p>
-      </div>
-
-      <!-- Feature 3 -->
-      <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:22px; padding:30px; box-shadow:0 5px 18px rgba(65,36,2,0.04);">
-        <div style="width:48px; height:48px; border-radius:14px; background:#FBF0DA; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:#BA7517;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 12h18M12 3v18"/></svg>
-        </div>
-        <h3 style="font-size:19px; font-weight:800; margin:0 0 8px; color:#2A1801;">게임으로 익히기</h3>
-        <p style="font-size:14.5px; line-height:1.58; color:#7A6A55; margin:0;">벽돌 깨기·단어 정렬로 확언을 놀이처럼 몸에 익혀요.</p>
-      </div>
-
-      <!-- Feature 4 -->
-      <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:22px; padding:30px; box-shadow:0 5px 18px rgba(65,36,2,0.04);">
-        <div style="width:48px; height:48px; border-radius:14px; background:#E6F3E8; display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:#3B8B4E;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 style="font-size:19px; font-weight:800; margin:0 0 8px; color:#2A1801;">함께 외치기</h3>
-        <p style="font-size:14.5px; line-height:1.58; color:#7A6A55; margin:0;">같은 목표의 방에서 서로의 연속을 응원하며 이어가요.</p>
-      </div>
-
+      </sc-for>
     </div>
   </section>
 
@@ -254,5 +205,43 @@
   </footer>
 
 </div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showWoman: false };
+  componentDidMount() {
+    this._t = setInterval(() => this.setState((s) => ({ showWoman: !s.showWoman })), 4200);
+  }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const gold = { bg: 'rgba(233,200,119,0.92)', color: '#2A1801', glow: '0 0 18px rgba(233,200,119,0.35)' };
+    const dim = { bg: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.92)', glow: 'none' };
+    const words = [
+      { text: '나는', ...gold },
+      { text: '매일', ...gold },
+      { text: '성장하고', ...dim },
+      { text: '있다', ...dim },
+    ];
+    const ic = (p) => React.createElement('svg', { width: 26, height: 26, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: p } });
+    return {
+      words,
+      manOpacity: this.state.showWoman ? 0 : 1,
+      womanOpacity: this.state.showWoman ? 1 : 0,
+      waveDelays: ['0s', '0.08s', '0.16s', '0.24s', '0.32s'],
+      steps: [
+        { num: '01', title: '오늘의 말을 골라요', desc: '나 자신·커리어·건강 등 카테고리별 확언 중 오늘 마주할 성공의 말을 만나요.', icon: ic('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>') },
+        { num: '02', title: '카메라를 보며 말해요', desc: '나를 마주 본 채 소리 내어 외치면, 인식된 단어가 하나씩 골드로 밝아져요.', icon: ic('<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>') },
+        { num: '03', title: '기록으로 이어져요', desc: '완료한 외침은 달력과 연속 기록으로 쌓여요. 어제의 나보다 오늘의 내가 더 단단해져요.', icon: ic('<path d="M8 2v4M16 2v4M3 10h18"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="m9 16 2 2 4-4"/>') },
+      ],
+      features: [
+        { title: '동적 텍스트 인트로', desc: '확언이 어절 단위로 하나씩 밝아지며 마음을 준비시켜요.', chipBg: '#FBF0DA', chipColor: '#BA7517', icon: React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>' } }) },
+        { title: '연속 기록 & 달력', desc: '매일의 외침이 streak으로. 보호막으로 연속을 지켜요.', chipBg: '#EAF2FB', chipColor: '#1E88E5', icon: React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>' } }) },
+        { title: '게임으로 익히기', desc: '벽돌 깨기·단어 정렬로 확언을 놀이처럼 몸에 익혀요.', chipBg: '#FBF0DA', chipColor: '#BA7517', icon: React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 12h18M12 3v18"/>' } }) },
+        { title: '함께 외치기', desc: '같은 목표의 방에서 서로의 연속을 응원하며 이어가요.', chipBg: '#E6F3E8', chipColor: '#3B8B4E', icon: React.createElement('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>' } }) },
+      ],
+    };
+  }
+}
+</script>
 </body>
 </html>
