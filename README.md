@@ -13,8 +13,7 @@
 `index.html`이 저장소 루트에 있으므로 별도 빌드 과정이 필요 없습니다.
 
 ## 파일
-- `index.html` — 자립형 랜딩 페이지 (그대로 배포)
-- `이뤄 랜딩.dc.html` — 편집용 원본(Design Component). 수정 후 다시 번들하면 `index.html`이 갱신됩니다.
+- `index.html` — 랜딩 페이지 (편집도 이 파일에서 바로 합니다)
 
 ## 라이선스
 MIT
