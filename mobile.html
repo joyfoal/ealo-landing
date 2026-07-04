@@ -46,7 +46,10 @@
   </div>
 
   <!-- 카메라 데모: 휴대폰 목업 (웹 랜딩과 동일 형태) -->
-  <div style="display:flex; justify-content:center; margin:2px 0 24px;">
+  <div style="display:flex; flex-direction:column; align-items:center; margin:2px 0 24px;">
+    <div style="display:flex; justify-content:center; margin-bottom:16px;">
+      <button onClick="{{ togglePlay }}" aria-label="재생/일시정지" style="display:flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; border:1px solid #EBDDC5; background:#FFFFFF; color:#412402; font-size:14.5px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 5px 14px rgba(65,36,2,0.08);">{{ playIcon }}{{ playLabel }}</button>
+    </div>
     <div style="position:relative; width:340px; height:718px; border-radius:46px; padding:11px; background:linear-gradient(150deg,#2A1801,#1a0f04); box-shadow:0 30px 70px -24px rgba(65,36,2,0.5);">
       <div style="position:absolute; left:-3px; top:150px; width:3px; height:32px; border-radius:3px; background:#0f0a03;"></div>
       <div style="position:absolute; left:-3px; top:196px; width:3px; height:56px; border-radius:3px; background:#0f0a03;"></div>
@@ -61,10 +64,6 @@
       <div style="display:inline-flex; align-items:center; gap:5px; background:rgba(194,60,40,0.85); border-radius:20px; padding:4px 10px; font-size:11px; font-weight:700; color:#fff;">
         <span style="width:6px; height:6px; border-radius:50%; background:#fff; animation:sd_blink 1s steps(1) infinite;"></span>녹음 중
       </div>
-    </div>
-
-    <div style="position:absolute; left:50%; bottom:18px; transform:translateX(-50%); z-index:14;">
-      <button onClick="{{ togglePlay }}" aria-label="재생/일시정지" style="display:flex; align-items:center; gap:7px; padding:9px 18px; border-radius:999px; border:1px solid rgba(255,255,255,0.25); background:rgba(20,13,6,0.55); backdrop-filter:blur(6px); color:#fff; font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 6px 16px rgba(0,0,0,0.35);">{{ playIcon }}{{ playLabel }}</button>
     </div>
 
     <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; z-index:12;">
@@ -294,8 +293,8 @@ class Component extends DCLogic {
     })) : [];
     const ic = (p, s) => React.createElement('svg', { width: s || 24, height: s || 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: p } });
     const playIcon = this.state.paused
-      ? React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#fff', style: { marginLeft: '1px' }, dangerouslySetInnerHTML: { __html: '<path d="M8 5v14l11-7z"/>' } })
-      : React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#fff', dangerouslySetInnerHTML: { __html: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>' } });
+      ? React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#412402', style: { marginLeft: '1px' }, dangerouslySetInnerHTML: { __html: '<path d="M8 5v14l11-7z"/>' } })
+      : React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#412402', dangerouslySetInnerHTML: { __html: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>' } });
     return {
       words,
       togglePlay: this.togglePlay,
