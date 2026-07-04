@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#FBF0DA"/>
+    <circle cx="50" cy="50" r="20" fill="none" stroke="#BA7517" stroke-width="4"/>
+    <text x="50" y="58" font-family="sans-serif" font-size="17" font-weight="800" fill="#BA7517" text-anchor="middle">이뤄</text>
+  </svg>
+</template>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Pretendard', -apple-system, sans-serif; background: #EDE5D8; color: #2A1801; -webkit-font-smoothing: antialiased; word-break: keep-all; }
+  @keyframes sd_wave { 0%,100% { height: 5px; } 50% { height: 18px; } }
+  @keyframes sd_blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0.25; } }
+  @keyframes sd_pop { 0% { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes sd_confetti { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-80px) rotate(220deg); opacity: 0; } }
+  @keyframes sd_ring { 0% { transform: scale(0.6); opacity: 0.7; } 100% { transform: scale(1.5); opacity: 0; } }
+</style>
+</helmet>
+
+<div style="width:390px; margin:0 auto; background:#FFFCF8; min-height:100vh; overflow:hidden;">
+
+  <!-- Top bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 20px;">
+    <img src="assets/ealo-logo.png" alt="이뤄" style="width:52px; height:52px; border-radius:14px; display:block;">
+    <button style="padding:9px 16px; background:linear-gradient(135deg,#BA7517,#D98A1C); color:#fff; border:none; border-radius:11px; font-size:13.5px; font-weight:700; font-family:inherit; box-shadow:0 5px 14px rgba(186,117,23,0.28);">앱 시작</button>
+  </div>
+
+  <!-- Hero copy -->
+  <div style="padding:16px 22px 22px;">
+    <div style="display:inline-flex; align-items:center; gap:6px; background:#FBF0DA; padding:6px 13px; border-radius:999px; margin-bottom:18px;">
+      <span style="width:6px; height:6px; border-radius:50%; background:#BA7517;"></span>
+      <span style="font-size:12.5px; font-weight:700; color:#BA7517;">40·50대를 위한 성공의 말 습관</span>
+    </div>
+    <h1 style="font-size:34px; font-weight:800; line-height:1.24; letter-spacing:-1px; margin:0 0 14px;">흔들리는 시기,<br><span style="color:#BA7517;">다시 나를 세우는</span><br>한 문장</h1>
+    <p style="font-size:15.5px; line-height:1.62; color:#7A6A55; margin:0;">AI가 모든 것을 바꾸는 시대, 미래가 불안한 요즘.<br>나를 마주 보고 오늘의 성공의 말을 소리 내어 말해요.</p>
+  </div>
+
+  <!-- 카메라 데모: 휴대폰 목업 (웹 랜딩과 동일 형태) -->
+  <div style="display:flex; justify-content:center; margin:2px 0 24px;">
+    <div style="position:relative; width:340px; height:718px; border-radius:46px; padding:11px; background:linear-gradient(150deg,#2A1801,#1a0f04); box-shadow:0 30px 70px -24px rgba(65,36,2,0.5);">
+      <div style="position:absolute; left:-3px; top:150px; width:3px; height:32px; border-radius:3px; background:#0f0a03;"></div>
+      <div style="position:absolute; left:-3px; top:196px; width:3px; height:56px; border-radius:3px; background:#0f0a03;"></div>
+      <div style="position:absolute; right:-3px; top:178px; width:3px; height:78px; border-radius:3px; background:#0f0a03;"></div>
+      <div style="position:relative; width:100%; height:100%; border-radius:36px; overflow:hidden; background:#140D06;">
+        <video id="sd-cam" src="assets/man-speak.mp4" muted playsinline preload="auto" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%; transform:scale(1.14) translateY(-8%); transform-origin:50% 50%;"></video>
+        <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(20,13,6,0.5) 0%, rgba(20,13,6,0.12) 36%, rgba(20,13,6,0.72) 100%); pointer-events:none;"></div>
+        <div style="position:absolute; top:13px; left:50%; transform:translateX(-50%); width:104px; height:26px; background:#000; border-radius:14px; z-index:20;"></div>
+
+    <div style="position:absolute; top:52px; left:0; right:0; display:flex; align-items:center; justify-content:center; gap:8px; z-index:12;">
+      <div style="background:rgba(0,0,0,0.5); border-radius:20px; padding:4px 13px; font-size:12px; color:rgba(255,255,255,0.72); font-weight:500;">1 / 3</div>
+      <div style="display:inline-flex; align-items:center; gap:5px; background:rgba(194,60,40,0.85); border-radius:20px; padding:4px 10px; font-size:11px; font-weight:700; color:#fff;">
+        <span style="width:6px; height:6px; border-radius:50%; background:#fff; animation:sd_blink 1s steps(1) infinite;"></span>녹음 중
+      </div>
+    </div>
+
+    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; z-index:12;">
+      <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:24px;">
+        <sc-for list="{{ words }}" as="w" hint-placeholder-count="0">
+          <span style="font-size:22px; font-weight:700; padding:6px 13px; border-radius:10px; background:{{ w.bg }}; color:{{ w.color }}; box-shadow:{{ w.glow }}; transition:all 0.35s ease;">{{ w.text }}</span>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.72); font-size:13px; opacity:{{ listeningOpacity }}; transition:opacity 0.4s ease;">
+        <div style="display:flex; align-items:flex-end; gap:2.5px; height:18px;">
+          <sc-for list="{{ waveDelays }}" as="d" hint-placeholder-count="0">
+            <span style="width:3px; border-radius:2px; background:#E9C877; height:5px; animation:sd_wave 0.5s ease-in-out {{ d }} infinite;"></span>
+          </sc-for>
+        </div>
+        인식 중...
+      </div>
+    </div>
+
+    <sc-if value="{{ celebrate }}">
+      <div style="position:absolute; inset:0; z-index:22; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(ellipse 80% 60% at 50% 45%, rgba(20,13,6,0.55), rgba(20,13,6,0.85));">
+        <div style="position:relative; display:flex; flex-direction:column; align-items:center; animation:sd_pop 0.5s cubic-bezier(0.2,0.9,0.3,1.2) both;">
+          <div style="position:relative; width:72px; height:72px; margin-bottom:16px;">
+            <div style="position:absolute; inset:0; border-radius:50%; border:2px solid rgba(233,200,119,0.7); animation:sd_ring 1.1s ease-out infinite;"></div>
+            <div style="position:absolute; inset:0; border-radius:50%; background:linear-gradient(135deg,#E9C877,#BA7517); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(186,117,23,0.5);">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+          </div>
+          <div style="font-size:22px; font-weight:800; color:#FFF4DC; letter-spacing:-0.4px; margin-bottom:6px;">잘하셨어요!</div>
+          <div style="font-size:13.5px; font-weight:500; color:rgba(255,244,220,0.78);">오늘의 성공의 말 완료</div>
+          <div style="margin-top:16px; display:inline-flex; align-items:center; gap:6px; background:rgba(233,200,119,0.16); border:1px solid rgba(233,200,119,0.4); border-radius:999px; padding:7px 14px; color:#F0D28E; font-size:12.5px; font-weight:700;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            연속 12일 달성
+          </div>
+        </div>
+        <sc-for list="{{ confetti }}" as="c" hint-placeholder-count="0">
+          <span style="position:absolute; top:42%; left:{{ c.left }}; width:8px; height:8px; border-radius:2px; background:{{ c.color }}; animation:sd_confetti {{ c.dur }} ease-out {{ c.delay }} infinite;"></span>
+        </sc-for>
+      </div>
+    </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:center; padding:0 22px 6px;">
+    <button onClick="{{ togglePlay }}" aria-label="재생/일시정지" style="display:flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; border:1px solid #EBDDC5; background:#FFFFFF; color:#412402; font-size:14.5px; font-weight:700; font-family:inherit; cursor:pointer; box-shadow:0 5px 14px rgba(65,36,2,0.08);">{{ playIcon }}{{ playLabel }}</button>
+  </div>
+
+  <!-- CTA 버튼 -->
+  <div style="padding:0 22px 10px;">
+    <button style="width:100%; padding:16px; background:linear-gradient(135deg,#BA7517,#D98A1C); color:#fff; border:none; border-radius:15px; font-size:16px; font-weight:700; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 10px 24px rgba(186,117,23,0.32);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+      지금 말해보기
+    </button>
+  </div>
+
+  <!-- stats -->
+  <div style="padding:4px 22px 30px; display:flex; flex-direction:column; gap:11px;">
+    <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:15px; font-weight:800; color:#2A1801; min-width:46px;">보고</span><span style="font-size:12.5px; color:#A0937E; line-height:1.4;">카메라를 보고 말해요 · 저장되지 않아요</span></div>
+    <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:15px; font-weight:800; color:#2A1801; min-width:46px;">말해요</span><span style="font-size:12.5px; color:#A0937E; line-height:1.4;">나의 장치에 저장해요</span></div>
+    <div style="display:flex; align-items:baseline; gap:10px;"><span style="font-size:15px; font-weight:800; color:#2A1801; min-width:46px;">함께</span><span style="font-size:12.5px; color:#A0937E; line-height:1.4;">공유한 문장만 함께 봐요</span></div>
+  </div>
+
+  <!-- 감정 후크 -->
+  <div style="background:linear-gradient(165deg,#2A1801,#160C03); padding:40px 22px; color:#fff;">
+    <div style="font-size:12.5px; font-weight:700; color:#E9C877; letter-spacing:1px; margin-bottom:12px;">MIDLIFE, AGE OF AI</div>
+    <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.6px; line-height:1.3; margin:0 0 14px;">요즘, 이런 마음이<br>스치나요?</h2>
+    <p style="font-size:16px; line-height:1.66; color:rgba(255,255,255,0.72); margin:0 0 24px;">AI가 일과 미래를 빠르게 바꾸는 시대.<br>열심히 달려온 40·50대일수록 문득 마음이 흔들립니다.</p>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="0">
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(233,200,119,0.16); border-radius:14px; padding:16px 18px; display:flex; align-items:center; gap:12px;">
+          <span style="font-size:28px; font-weight:800; color:rgba(233,200,119,0.4); line-height:1; font-family:Georgia,serif;">"</span>
+          <span style="font-size:15.5px; font-weight:600; color:rgba(255,255,255,0.9); line-height:1.45;">{{ q }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:16px; line-height:1.6; color:#FFF4DC; font-weight:600; margin:26px 0 0; text-align:center;">그 소용돌이에서 다시 나를 추스르는 방법.<br><span style="color:#E9C877;">긍정의 언어, 오늘의 성공의 말</span>로.</p>
+  </div>
+
+  <!-- 근거 -->
+  <div style="padding:40px 22px; background:#FBF5EA;">
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:12.5px; font-weight:700; color:#5E8A2E; letter-spacing:1px; margin-bottom:10px;">WHY IT WORKS</div>
+      <h2 style="font-size:31px; font-weight:800; letter-spacing:-0.6px; line-height:1.3; margin:0 0 12px;">보고, 말하면,<br>더 오래 기억됩니다</h2>
+      <p style="font-size:15.5px; line-height:1.6; color:#7A6A55; margin:0;">기억과 자기참조에 관한 인지심리학 연구·이론을 바탕으로 설계되었습니다.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <sc-for list="{{ evidence }}" as="e" hint-placeholder-count="0">
+        <div style="background:#FFFFFF; border:1px solid #EDE3D0; border-radius:18px; padding:20px; box-shadow:0 4px 16px rgba(65,36,2,0.05);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div style="width:44px; height:44px; border-radius:12px; background:{{ e.chipBg }}; display:flex; align-items:center; justify-content:center; color:{{ e.chipColor }}; flex-shrink:0;">{{ e.icon }}</div>
+            <div>
+              <div style="font-size:11px; font-weight:700; color:#A0937E; margin-bottom:2px;">{{ e.tagEn }}</div>
+              <h3 style="font-size:17px; font-weight:800; margin:0;">{{ e.title }}</h3>
+            </div>
+          </div>
+          <p style="font-size:14px; line-height:1.58; color:#7A6A55; margin:0 0 10px;">{{ e.desc }}</p>
+          <div style="font-size:11.5px; color:#A99B84; border-top:1px dashed #EBDDC5; padding-top:10px;">{{ e.source }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:16px; background:#F3EAD8; border-radius:14px; padding:16px 18px; display:flex; gap:11px; align-items:flex-start;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8600A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:1px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <p style="font-size:12.5px; line-height:1.6; color:#7A6A55; margin:0;">‘이뤄’는 연구와 이론을 바탕으로 목표를 더 자주 인식·기억하도록 돕는 습관 형성을 지향합니다.</p>
+    </div>
+  </div>
+
+  <!-- How -->
+  <div style="padding:40px 22px;">
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:12.5px; font-weight:700; color:#BA7517; letter-spacing:1px; margin-bottom:10px;">HOW IT WORKS</div>
+      <h2 style="font-size:25px; font-weight:800; letter-spacing:-0.5px; margin:0;">하루 30초면 충분해요</h2>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="0">
+        <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:18px; padding:20px; display:flex; align-items:center; gap:16px; box-shadow:0 4px 16px rgba(65,36,2,0.04);">
+          <div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg,#FBE6BE,#F4C876); display:flex; align-items:center; justify-content:center; color:#A8600A; flex-shrink:0;">{{ s.icon }}</div>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;"><span style="font-size:13px; font-weight:800; color:#E0B764;">{{ s.num }}</span><h3 style="font-size:17px; font-weight:800; margin:0;">{{ s.title }}</h3></div>
+            <p style="font-size:13.5px; line-height:1.5; color:#7A6A55; margin:0;">{{ s.desc }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div style="padding:0 22px 40px;">
+    <h2 style="font-size:25px; font-weight:800; letter-spacing:-0.5px; margin:0 0 18px;">습관으로 이어지도록</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <sc-for list="{{ features }}" as="f" hint-placeholder-count="0">
+        <div style="background:#FFFFFF; border:1px solid #F0E7D6; border-radius:16px; padding:18px; box-shadow:0 4px 14px rgba(65,36,2,0.04);">
+          <div style="width:42px; height:42px; border-radius:12px; background:{{ f.chipBg }}; display:flex; align-items:center; justify-content:center; margin-bottom:14px; color:{{ f.chipColor }};">{{ f.icon }}</div>
+          <h3 style="font-size:15.5px; font-weight:800; margin:0 0 6px;">{{ f.title }}</h3>
+          <p style="font-size:12.5px; line-height:1.5; color:#7A6A55; margin:0;">{{ f.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="margin:0 22px 30px; border-radius:24px; background:radial-gradient(ellipse 90% 120% at 50% 0%, #FBF0DA, #FFFCF8); border:1px solid #F0E7D6; padding:36px 26px; text-align:center;">
+    <h2 style="font-size:24px; font-weight:800; letter-spacing:-0.5px; line-height:1.32; margin:0 0 12px;">오늘의 성공의 말,<br>지금 말해보세요</h2>
+    <p style="font-size:14px; color:#7A6A55; margin:0 0 22px; line-height:1.55;">하루 30초. 보고 말하는 습관이 다시 나를 세우는 시작이 됩니다.</p>
+    <button style="width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:16px; background:linear-gradient(135deg,#BA7517,#D98A1C); color:#fff; border:none; border-radius:15px; font-size:16px; font-weight:700; font-family:inherit; box-shadow:0 10px 26px rgba(186,117,23,0.34);">
+      이뤄 시작하기
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top:1px solid #F0E7D6; padding:24px 22px 34px; text-align:center;">
+    <div style="font-size:16px; font-weight:800; color:#BA7517; margin-bottom:5px;">이뤄</div>
+    <div style="font-size:12px; color:#A0937E; line-height:1.55;">‘이뤄’는 목표 달성을 보장하지 않습니다.<br>목표를 더 자주 인식하고 기억하도록 돕는 습관 형성을 지향합니다.</div>
+    <div style="font-size:11.5px; color:#B7AB96; margin-top:10px;">© 2026 Ealo</div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { person: 'man', lit: 0, celebrate: false, switching: false };
+  wordsSrc = ['나는', '매일', '성장하고', '있다'];
+  thresholds = [0.14, 0.34, 0.54, 0.72];
+
+  cam() { return document.getElementById('sd-cam'); }
+  srcFor(p) { return p === 'man' ? 'assets/man-speak.mp4' : 'assets/woman-speak.mp4'; }
+
+  componentDidMount() {
+    this._person = 'man';
+    this._switching = false;
+    const v = this.cam();
+    if (v) { v.currentTime = 0; setTimeout(() => v.play().catch(() => {}), 300); }
+    this._iv = setInterval(() => this.tick(), 110);
+  }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._sw); }
+
+  togglePlay = () => {
+    const v = this.cam();
+    if (this.state.paused) {
+      this.setState({ paused: false });
+      if (v) v.play().catch(() => {});
+    } else {
+      this.setState({ paused: true });
+      if (v) v.pause();
+    }
+  };
+
+  tick() {
+    if (this._switching || this.state.paused) return;
+    const v = this.cam();
+    if (!v || !v.duration || v.paused) return;
+    const p = v.currentTime / v.duration;
+    let lit = 0;
+    for (let i = 0; i < this.thresholds.length; i++) if (p >= this.thresholds[i]) lit = i + 1;
+    const celebrate = p >= 0.85 || v.ended;
+    if (lit !== this.state.lit || celebrate !== this.state.celebrate) this.setState({ lit, celebrate });
+    if ((v.ended || p >= 0.985) && !this._switching) this.switchPerson();
+  }
+
+  switchPerson() {
+    this._switching = true;
+    const next = this._person === 'man' ? 'woman' : 'man';
+    this._sw = setTimeout(() => {
+      if (this.state.paused) { this._switching = false; return; }
+      const v = this.cam();
+      this._person = next;
+      if (v) { v.src = this.srcFor(next); v.currentTime = 0; v.play().catch(() => {}); }
+      this._switching = false;
+      this.setState({ lit: 0, celebrate: false });
+    }, 1700);
+  }
+
+  renderVals() {
+    const { person, lit, celebrate } = this.state;
+    const words = this.wordsSrc.map((t, i) => {
+      const on = i < lit;
+      return {
+        text: t,
+        bg: on ? 'linear-gradient(135deg,#F0D28E,#E9C877)' : 'rgba(255,255,255,0.12)',
+        color: on ? '#2A1801' : 'rgba(255,255,255,0.92)',
+        glow: on ? '0 0 20px rgba(233,200,119,0.45)' : 'none',
+      };
+    });
+    const cc = ['#E9C877', '#BA7517', '#5E9E2E', '#1E88E5', '#D9541C'];
+    const confetti = celebrate ? Array.from({ length: 14 }, (_, i) => ({
+      left: (6 + (i * 6.4) % 88) + '%',
+      color: cc[i % cc.length],
+      dur: (1.1 + (i % 4) * 0.25).toFixed(2) + 's',
+      delay: ((i % 6) * 0.12).toFixed(2) + 's',
+    })) : [];
+    const ic = (p, s) => React.createElement('svg', { width: s || 24, height: s || 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: p } });
+    const playIcon = this.state.paused
+      ? React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#412402', style: { marginLeft: '1px' }, dangerouslySetInnerHTML: { __html: '<path d="M8 5v14l11-7z"/>' } })
+      : React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: '#412402', dangerouslySetInnerHTML: { __html: '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>' } });
+    return {
+      words,
+      togglePlay: this.togglePlay,
+      playIcon,
+      playLabel: this.state.paused ? '재생' : '일시정지',
+      listeningOpacity: celebrate ? 0 : 1,
+      waveDelays: ['0s', '0.08s', '0.16s', '0.24s', '0.32s'],
+      celebrate, confetti,
+      quotes: [
+        '왜 이렇게 열심히 살았지',
+        '이렇게 해서 얻은 건 뭐지',
+        '내가 추구해 온 것들, 잘 해내고 있나',
+        '앞으로는 어떻게 살아야 하지',
+      ],
+      evidence: [
+        { tagEn: 'PRODUCTION EFFECT', title: '소리 내어 말하기', desc: '소리 내어 말한 정보는 눈으로만 읽은 정보보다 더 잘 기억되는 경향이 연구로 보고되었습니다.', source: '참고: MacLeod et al. (2010) — 산출 효과', chipBg: '#FBF0DA', chipColor: '#BA7517', icon: ic('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>') },
+        { tagEn: 'DUAL CODING THEORY', title: '보면서 말하기', desc: '언어와 시각 정보를 함께 사용하면 기억 형성에 도움이 될 수 있다는 인지심리학 이론입니다.', source: '참고: 이중부호화 이론 (Paivio)', chipBg: '#EAF2FB', chipColor: '#1E88E5', icon: ic('<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>') },
+        { tagEn: 'SELF-AFFIRMATION', title: '나의 가치를 떠올리기', desc: '자신의 가치와 목표를 반복적으로 떠올리는 행동은 행동 변화와 심리적 안정에 도움을 줄 수 있습니다.', source: '참고: 자기확언 이론', chipBg: '#EEF4E6', chipColor: '#5E8A2E', icon: ic('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>') },
+        { tagEn: 'SELF-REFERENCE EFFECT', title: '내 얼굴을 마주하기', desc: '사람은 자신의 얼굴과 관련된 정보를 더 빠르고 강하게 처리하는 경향이 있습니다.', source: '참고: 자기참조 효과', chipBg: '#F3ECFB', chipColor: '#7A5AD9', icon: ic('<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>') },
+      ],
+      steps: [
+        { num: '01', title: '오늘의 말을 골라요', desc: '카테고리별 확언 중 오늘 마주할 성공의 말을 만나요.', icon: ic('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>') },
+        { num: '02', title: '카메라를 보며 말해요', desc: '소리 내어 말하면 인식된 단어가 하나씩 밝아져요.', icon: ic('<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>') },
+        { num: '03', title: '기록으로 이어져요', desc: '완료한 외침이 달력과 연속 기록으로 쌓여요.', icon: ic('<path d="M8 2v4M16 2v4M3 10h18"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="m9 16 2 2 4-4"/>') },
+      ],
+      features: [
+        { title: '동적 텍스트 인트로', desc: '확언이 어절 단위로 밝아지며 마음을 준비시켜요.', chipBg: '#FBF0DA', chipColor: '#BA7517', icon: ic('<path d="M4 7V4h16v3M9 20h6M12 4v16"/>') },
+        { title: '연속 기록 & 달력', desc: '매일의 외침이 기록으로. 보호막으로 지켜요.', chipBg: '#EAF2FB', chipColor: '#1E88E5', icon: ic('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>') },
+        { title: '게임으로 익히기', desc: '벽돌 깨기·단어 정렬로 놀이처럼 익혀요.', chipBg: '#EEF4E6', chipColor: '#5E8A2E', icon: ic('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 12h18M12 3v18"/>') },
+        { title: '함께 나누기', desc: '같은 마음의 사람들과 서로를 응원해요. (추후 업데이트 예정)', chipBg: '#F3ECFB', chipColor: '#7A5AD9', icon: ic('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>') },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
