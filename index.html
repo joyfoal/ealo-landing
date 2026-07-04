@@ -74,7 +74,7 @@
         <div style="position:absolute; right:-3px; top:178px; width:3px; height:78px; border-radius:3px; background:#0f0a03;"></div>
         <div style="position:relative; width:100%; height:100%; border-radius:36px; overflow:hidden; background:#140D06;">
 
-          <video id="sd-cam" src="assets/man-speak.mp4" muted playsinline preload="auto" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%; transform:scale(1.14) translateY(-8%); transform-origin:50% 50%;"></video>
+          <video id="sd-cam" src="assets/woman-speak.mp4" muted playsinline preload="auto" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%; transform:scale(1.14) translateY(-8%); transform-origin:50% 50%;"></video>
           <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(20,13,6,0.5) 0%, rgba(20,13,6,0.12) 36%, rgba(20,13,6,0.72) 100%); pointer-events:none;"></div>
 
           <div style="position:absolute; top:13px; left:50%; transform:translateX(-50%); width:104px; height:26px; background:#000; border-radius:14px; z-index:20;"></div>
@@ -260,16 +260,21 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { person: 'man', lit: 0, celebrate: false, switching: false, paused: true };
+  state = { person: 'woman', lit: 0, celebrate: false, switching: false, paused: true };
   wordsSrc = ['나는', '매일', '성장하고', '있다'];
-  thresholds = [0.14, 0.34, 0.54, 0.72];
 
   cam() { return document.getElementById('sd-cam'); }
   srcFor(p) { return p === 'man' ? 'assets/man-speak.mp4' : 'assets/woman-speak.mp4'; }
+  thresholdsFor(p) {
+    return p === 'man'
+      ? [0.553, 0.661, 0.732, 0.874]
+      : [0.123, 0.374, 0.549, 0.966];
+  }
 
   componentDidMount() {
-    this._person = 'man';
+    this._person = 'woman';
     this._switching = false;
+    this.thresholds = this.thresholdsFor(this._person);
     const v = this.cam();
     if (v) v.currentTime = 0;
     this._iv = setInterval(() => this.tick(), 110);
@@ -294,7 +299,8 @@ class Component extends DCLogic {
     const p = v.currentTime / v.duration;
     let lit = 0;
     for (let i = 0; i < this.thresholds.length; i++) if (p >= this.thresholds[i]) lit = i + 1;
-    const celebrate = p >= 0.85 || v.ended;
+    const allLit = lit >= this.wordsSrc.length;
+    const celebrate = (allLit && p >= this.thresholds[this.thresholds.length - 1] + 0.02) || v.ended;
     if (lit !== this.state.lit || celebrate !== this.state.celebrate) this.setState({ lit, celebrate });
     if ((v.ended || p >= 0.985) && !this._switching) this.switchPerson();
   }
@@ -306,6 +312,7 @@ class Component extends DCLogic {
       if (this.state.paused) { this._switching = false; return; }
       const v = this.cam();
       this._person = next;
+      this.thresholds = this.thresholdsFor(next);
       if (v) { v.src = this.srcFor(next); v.currentTime = 0; v.play().catch(() => {}); }
       this._switching = false;
       this.setState({ lit: 0, celebrate: false });
