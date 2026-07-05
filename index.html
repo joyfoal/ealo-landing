@@ -32,7 +32,10 @@
 
   <!-- ═══════════ Nav ═══════════ -->
   <nav style="display:flex; align-items:center; justify-content:space-between; padding:22px 64px;">
-    <img src="assets/ealo-logo.png" alt="이뤄" style="width:88px; height:88px; border-radius:20px; display:block;">
+    <div style="position:relative; width:88px; height:88px;">
+      <img src="assets/ealo-logo.png" alt="이뤄" style="position:absolute; inset:0; width:88px; height:88px; border-radius:20px; display:block; opacity:{{ logoOpacityA }}; transition:opacity 1.2s ease;">
+      <img src="assets/ealo-logo-2.png" alt="이뤄" style="position:absolute; inset:0; width:88px; height:88px; border-radius:20px; display:block; opacity:{{ logoOpacityB }}; transition:opacity 1.2s ease;">
+    </div>
     <div style="display:flex; align-items:center; gap:34px;">
       <a href="#why" style="font-size:15px; font-weight:600; color:#7A6A55; text-decoration:none;">왜 이뤄인가</a>
       <a href="#how" style="font-size:15px; font-weight:600; color:#7A6A55; text-decoration:none;">사용법</a>
@@ -45,7 +48,7 @@
     <div style="flex:1; min-width:0;">
       <div style="display:inline-flex; align-items:center; gap:7px; background:#FBF0DA; padding:7px 15px; border-radius:999px; margin-bottom:26px;">
         <span style="width:7px; height:7px; border-radius:50%; background:#BA7517;"></span>
-        <span style="font-size:14px; font-weight:700; color:#BA7517;">40·50대를 위한 성공의 말 습관</span>
+        <span style="font-size:14px; font-weight:700; color:#BA7517;">성공의 말 습관 만들기</span>
       </div>
       <h1 style="font-size:58px; font-weight:800; line-height:1.18; letter-spacing:-1.4px; margin:0 0 24px; color:#2A1801;">흔들리는 시기,<br><span style="color:#BA7517;">다시 나를 세우는</span><br>한 문장</h1>
       <p style="font-size:19px; line-height:1.64; color:#7A6A55; margin:0 0 38px; max-width:520px;">AI가 모든 것을 바꾸는 시대, 미래가 불안하게 느껴지는 요즘.<br>나를 마주 보고 오늘의 성공의 말을 소리 내어 말해요.<br>보고 말하는 습관이 다시 나를 일으켜 세웁니다.</p>
@@ -138,7 +141,7 @@
     <div style="max-width:900px; margin:0 auto; text-align:center;">
       <div style="font-size:16px; font-weight:700; color:#E9C877; letter-spacing:1px; margin-bottom:20px;">MIDLIFE, IN THE AGE OF AI</div>
       <h2 style="font-size:56px; font-weight:800; letter-spacing:-1px; line-height:1.25; margin:0 0 24px;">요즘, 이런 마음이 스치나요?</h2>
-      <p style="font-size:22px; line-height:1.7; color:rgba(255,255,255,0.72); margin:0 0 52px;">AI가 일과 미래를 빠르게 바꾸는 시대.<br>열심히 달려온 40·50대일수록, 문득 마음이 흔들립니다.</p>
+      <p style="font-size:22px; line-height:1.7; color:rgba(255,255,255,0.72); margin:0 0 52px;">AI가 일과 미래를 빠르게 바꾸는 시대.<br>열심히 달려온 나, 문득 마음이 흔들립니다.</p>
     </div>
     <div style="max-width:1000px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:18px;">
       <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="0">
@@ -260,7 +263,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { person: 'woman', lit: 0, celebrate: false, switching: false, paused: true };
+  state = { person: 'woman', lit: 0, celebrate: false, switching: false, paused: true, logoIndex: 0 };
   wordsSrc = ['나는', '매일', '성장하고', '있다'];
 
   cam() { return document.getElementById('sd-cam'); }
@@ -278,8 +281,9 @@ class Component extends DCLogic {
     const v = this.cam();
     if (v) v.currentTime = 0;
     this._iv = setInterval(() => this.tick(), 110);
+    this._logoIv = setInterval(() => this.setState({ logoIndex: this.state.logoIndex === 0 ? 1 : 0 }), 4000);
   }
-  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._sw); }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._sw); clearInterval(this._logoIv); }
 
   togglePlay = () => {
     const v = this.cam();
@@ -346,6 +350,8 @@ class Component extends DCLogic {
       togglePlay: this.togglePlay,
       playIcon,
       playLabel: this.state.paused ? '재생' : '완료',
+      logoOpacityA: this.state.logoIndex === 0 ? 1 : 0,
+      logoOpacityB: this.state.logoIndex === 1 ? 1 : 0,
       listeningOpacity: celebrate ? 0 : 1,
       waveDelays: ['0s', '0.08s', '0.16s', '0.24s', '0.32s'],
       celebrate, confetti,
