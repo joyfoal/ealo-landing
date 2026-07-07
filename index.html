@@ -28,7 +28,7 @@
 </style>
 </helmet>
 
-<div style="width:1440px; margin:0 auto; overflow:hidden;">
+<div id="sd-page" style="width:1440px; margin:0 auto; overflow:hidden;">
 
   <!-- ═══════════ Nav ═══════════ -->
   <nav style="display:flex; align-items:center; justify-content:space-between; padding:22px 64px;">
@@ -278,8 +278,19 @@ class Component extends DCLogic {
     if (v) v.currentTime = 0;
     this._iv = setInterval(() => this.tick(), 110);
     this._logoIv = setInterval(() => this.setState({ logoIndex: this.state.logoIndex === 0 ? 1 : 0 }), 4000);
+    this.fitPage();
+    window.addEventListener('resize', this.fitPage);
   }
-  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._sw); clearInterval(this._logoIv); }
+  componentWillUnmount() {
+    clearInterval(this._iv); clearTimeout(this._sw); clearInterval(this._logoIv);
+    window.removeEventListener('resize', this.fitPage);
+  }
+
+  fitPage = () => {
+    const el = document.getElementById('sd-page');
+    if (!el) return;
+    el.style.zoom = Math.min(1, window.innerWidth / 1440);
+  };
 
   togglePlay = () => {
     const v = this.cam();
